@@ -7,17 +7,20 @@ from components.navbar import create_navbar
 from utils.data_loader import RAW_DF, filter_data
 from pages import sales_overview, product_analytics, customer_analytics, geography_analytics
 
-app = dash.Dash(
+# Initialize Dash App
+dash_app = dash.Dash(
     __name__,
     suppress_callback_exceptions=True,
     external_stylesheets=[dbc.themes.FLATLY]
 )
-app.title = "E-Commerce Analytics Dashboard"
+dash_app.title = "E-Commerce Analytics Dashboard"
 
-# EXPOSE SERVER FOR VERCEL DEPLOYMENT
-server = app.server
-# Caching Configuration
-cache = Cache(app.server, config={
+# EXPOSE FLASK SERVER FOR VERCEL
+server = dash_app.server
+app = server  # Vercel entry point looks for 'app'
+
+# In-Memory Cache configuration
+cache = Cache(server, config={
     'CACHE_TYPE': 'SimpleCache',
     'CACHE_DEFAULT_TIMEOUT': 300
 })
@@ -25,17 +28,12 @@ cache = Cache(app.server, config={
 categories = ['All'] + list(RAW_DF['category'].unique())
 countries = ['All'] + list(RAW_DF['country'].unique())
 
-app.layout = html.Div([
-    # Page Router Location
+dash_app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
-    
-    # Global In-Memory Data Store
     dcc.Store(id='global-store', storage_type='memory'),
 
-    # Navbar
     create_navbar(),
 
-    # Control Bar / Filters Section
     dbc.Container([
         dbc.Row([
             dbc.Col([
@@ -64,12 +62,10 @@ app.layout = html.Div([
             ], width="auto")
         ], className="filter-panel shadow-sm mb-4 ms-0 me-0 align-items-center"),
 
-        # Dynamic Content Container
         html.Div(id='page-content')
     ], fluid=True, className="px-4")
 ])
 
-# Callback 1: Data Filtering & Caching into dcc.Store
 @callback(
     Output('global-store', 'data'),
     [Input('dropdown-category', 'value'),
@@ -80,7 +76,6 @@ def update_store(selected_category, selected_country):
     filtered_df = filter_data(RAW_DF, selected_category, selected_country)
     return filtered_df.to_dict('records')
 
-# Callback 2: Multi-Page Router
 @callback(
     Output('page-content', 'children'),
     [Input('url', 'pathname')]
@@ -96,4 +91,4 @@ def display_page(pathname):
         return sales_overview.layout()
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8050)
+    dash_app.run(debug=True, port=8050)
