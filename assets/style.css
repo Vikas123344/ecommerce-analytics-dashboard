@@ -1,0 +1,259 @@
+/* ==========================================================================
+   Global Theme & Typography
+   ========================================================================== */
+:root {
+  --bg-main: #f1f5f9;
+  --bg-card: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --accent-blue: #3b82f6;
+  --accent-purple: #8b5cf6;
+  --accent-emerald: #10b981;
+  --accent-amber: #f59e0b;
+  --accent-rose: #f43f5e;
+  --border-color: #e2e8f0;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --shadow-soft: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+  --shadow-hover: 0 12px 28px -4px rgba(15, 23, 42, 0.12);
+  --transition-fast: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  margin: 0;
+  padding-bottom: 40px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Page Headings */
+.page-title {
+  font-weight: 800;
+  font-size: 1.75rem;
+  letter-spacing: -0.02em;
+  color: #1e293b;
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: inline-block;
+}
+
+.page-title::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 40px;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+  border-radius: 2px;
+}
+
+/* ==========================================================================
+   Navigation Bar Customization
+   ========================================================================== */
+.navbar {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  padding: 0.8rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.navbar-brand {
+  font-weight: 800 !important;
+  font-size: 1.35rem !important;
+  background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.01em;
+}
+
+.nav-link {
+  font-weight: 500;
+  color: #94a3b8 !important;
+  margin: 0 4px;
+  padding: 6px 14px !important;
+  border-radius: 8px;
+  transition: var(--transition-fast);
+}
+
+.nav-link:hover, .nav-link.active {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Filter Panel Glassmorphism & Z-Index Fix
+   ========================================================================== */
+.filter-panel {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.5rem;
+  box-shadow: var(--shadow-soft);
+  animation: fadeInDown 0.5s ease-out;
+
+  /* FIX: Ensure filter panel floats above cards below */
+  position: relative;
+  z-index: 1000 !important;
+  overflow: visible !important;
+}
+
+/* Dash Dropdown Specific Z-Index Overrides */
+.Select {
+  z-index: 1001 !important;
+}
+
+.Select-menu-outer {
+  z-index: 9999 !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15) !important;
+  border-radius: 8px !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+.Select-control {
+  border-radius: 8px !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: none !important;
+  transition: var(--transition-fast);
+}
+
+.Select-control:hover {
+  border-color: var(--accent-blue) !important;
+}
+
+/* ==========================================================================
+   Vibrant KPI Cards
+   ========================================================================== */
+.kpi-card {
+  border: none !important;
+  border-radius: var(--radius-lg) !important;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-soft);
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-fast);
+  animation: fadeInUp 0.5s ease-out;
+  z-index: 1; /* Lower z-index so dropdown menu passes over it */
+}
+
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+}
+
+/* Individual Gradient Accents for KPI Cards */
+.kpi-card:nth-child(1)::before {
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+}
+
+.kpi-card:nth-child(2)::before {
+  background: linear-gradient(90deg, #10b981, #34d399);
+}
+
+.kpi-card:nth-child(3)::before {
+  background: linear-gradient(90deg, #8b5cf6, #c084fc);
+}
+
+.kpi-card:nth-child(4)::before {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+}
+
+.kpi-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+.kpi-card .card-subtitle {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary) !important;
+  margin-bottom: 0.5rem;
+}
+
+.kpi-card h3 {
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+/* ==========================================================================
+   Chart & Graph Cards
+   ========================================================================== */
+.graph-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-soft);
+  transition: var(--transition-fast);
+  animation: fadeInUp 0.6s ease-out;
+  position: relative;
+  z-index: 1;
+}
+
+.graph-card:hover {
+  box-shadow: var(--shadow-hover);
+  border-color: #cbd5e1;
+}
+
+.graph-card h5 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Smooth transition for Plotly Canvas */
+.js-plotly-plot .plotly .main-svg {
+  border-radius: var(--radius-md);
+}
+
+/* ==========================================================================
+   Animations & Responsive Fixes
+   ========================================================================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .kpi-card {
+    margin-bottom: 15px;
+  }
+  .filter-panel {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
