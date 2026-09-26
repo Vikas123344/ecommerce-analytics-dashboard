@@ -14,6 +14,8 @@ app = dash.Dash(
 )
 app.title = "E-Commerce Analytics Dashboard"
 
+# EXPOSE SERVER FOR VERCEL DEPLOYMENT
+server = app.server
 # Caching Configuration
 cache = Cache(app.server, config={
     'CACHE_TYPE': 'SimpleCache',
